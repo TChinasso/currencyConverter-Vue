@@ -27,6 +27,11 @@
   }
 </script>
 <style>
+@media (max-width: 600px) {
+  #app{
+    width: 90vw;
+  }
+}
  body, html, #app {
     margin: 0;
     padding: 0;
@@ -37,7 +42,7 @@
 #app{
     background-color:#e1e1e2;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 100vw;
     grid-template-rows: 0.12fr auto 0.07fr;
     justify-items: center;
     align-items: center;

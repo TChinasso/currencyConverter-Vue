@@ -7,13 +7,13 @@
       <div class="space">
         <div class="field">
           <div class="control">
-            <input type="" class="input is-medium " id="inputSize" v-model="moneyIn"
+            <input type="" class="input" :class="screenSize" id="inputSize" v-model="moneyIn"
               @keyup="calculateMoneyOut" @keypress="onlyNumber">
-            <div class="select is-medium" style="width: 45%;">
+            <div class="select" :class="screenSize" style="width: 45%;">
               <select name="moneyIn" id="moneyIn" v-model="moneyInOption" @change="calculateMoneyOut">
-                <option v-for="(value, name, index) in siglas.rates" :key="index" :value="value" :moneyInOption="value"
-                  v-bind:moneyInSigla="name">
-                  {{currencyNames[`${name}`].name}}
+                <option v-for="(value, named, index) in siglas.rates" :key="index" :value="value" :moneyInOption="value"
+                  >
+                  {{currencyNames[`${named}`].name}}
                 </option>
               </select>
             </div>
@@ -24,12 +24,12 @@
 
         <div class="field">
           <div class="control">
-            <input type="text" class="input is-medium" id="inputSize2" v-model="moneyOut"
+            <input type="text" class="input" :class="screenSize" id="inputSize2" v-model="moneyOut"
               @keyup="calculateMoneyIn" @keypress="onlyNumber">
-            <div class="select is-medium" style="width: 45%;">
+            <div class="select" :class="screenSize" ref="selectOut" style="width: 45%;">
               <select name="moneyOut" id="moneyOut" v-model="moneyOutOption" @change="calculateMoneyIn">
-                <option v-for="(value, name, index) in siglas.rates" :value="value" :key="index">
-                  {{currencyNames[`${name}`].name}}
+                <option v-for="(value, named, index) in siglas.rates" :value="value" :key="index">
+                  {{currencyNames[`${named}`].name}}
                 </option>
               </select>
             </div>
@@ -55,6 +55,7 @@ import axios from 'axios';
 export default {
         data() {
       return {
+        screenSize: 'is-medium',
         moneyIn: '1',
         moneyOut: '',
         moneyInOption: '',
@@ -78,6 +79,10 @@ export default {
         axios.get('https://gist.githubusercontent.com/Fluidbyte/2973986/raw/8bb35718d0c90fdacb388961c98b8d56abc392c9/Common-Currency.json').then(response => {
         this.currencyNames = response.data
       })
+      let windowSize = document.body.clientWidth;
+      if(windowSize < 600){
+        this.screenSize = ''
+      }
     },
 
     methods: {
@@ -100,7 +105,8 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
+
 .mainHeader{
   grid-area: mainHeader;
   margin: 2% 0 0 2%
@@ -145,4 +151,24 @@ select:focus{
   border: 1px solid rgb(219, 219, 219);
   border-radius: 4px;
 }
+
+@media (max-width: 600px) {
+  .main{
+    grid-template-columns: 1fr;
+  }
+  .mainRightPannel{
+    display: none;
+  }
+  .main{
+    width: 90vw;
+  }
+  #inputSize, #inputSize2{
+    width: 40vw;
+  }
+  .space{
+    margin-left: 2%;
+  }
+
+}
+
 </style>
