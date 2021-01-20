@@ -1,4 +1,4 @@
-# currencyConverter 1.2
+# currencyConverter
 https://moneyconverter.netlify.app/
 
 ## Project details
