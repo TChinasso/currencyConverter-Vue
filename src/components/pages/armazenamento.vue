@@ -1,7 +1,10 @@
 <template>
-  <div class="main">
-    <header class="mainHeader">
-      Header
+  <div>
+    <div class="main">
+    <header class="mainHeader">     
+      <p>
+        {{dataInInput}} {{dataInOption.name}} é equivalente a {{dataOutInput}} {{dataOutOption.name}}s
+      </p>
     </header>
     <div class="mainLeftPannel">
       <div class="space">
@@ -9,8 +12,9 @@
           <div class="control">
             <input type="" class="width40 input" :class="screenSize" id="inputSize" v-model="dataInInput" @keyup="calculateDataOut">
             <div class="select" :class="screenSize" >
-              <select name="" id="" v-model="dataInOption">
-                <option v-for="(dataName, index) in byteConverter" :value="dataName.value" :key="index" >
+              <select name="" id="" v-model="dataInOption" @change="calculateDataOut">
+                <option v-for="(dataName, index) in byteConverter" :key="index" 
+                v-bind:value="{name: dataName.unity, value: dataName.value}" >
                   {{dataName.unity}}
                 </option>
               </select>
@@ -21,10 +25,11 @@
       <div class="space">
         <div class="field">
           <div class="control">
-            <input type="" class="width40 input" :class="screenSize" id="inputSize">
+            <input type="" class="width40 input" :class="screenSize" id="inputSize" v-model="dataOutInput" @keyup="calateDataIn">
             <div class="select" :class="screenSize" >
-              <select name="" id="" v-model="dataOutOption">
-                <option v-for="(dataName, index) in byteConverter" :key="index" :value="dataName.value">
+              <select name="" id="outOption" v-model="dataOutOption" @change="calculateDataOut()">
+                <option v-for="(dataName, index) in byteConverter" :key="index"
+                v-bind:value="{name: dataName.unity, value: dataName.value}">
                   {{dataName.unity}}
                 </option>
               </select>
@@ -37,8 +42,9 @@
       <i class="fas fa-hdd absolute-ico"></i>
     </div>
     <footer class="mainFooter">
-      Footer
+      
     </footer>
+  </div>
   </div>
 </template>
 
@@ -47,33 +53,41 @@ import axios from 'axios'
 export default {
   data(){
     return{
+      byteConverter: {},
       dataInInput: 1,
-      dataOutInput: 0,
-      dataInOption: '',
-      dataOutOption: '',
+      dataOutInput: '',
+      dataInOption: {},
+      dataOutOption: {},
       dataName: {},
       screenSize: 'is-medium',
-      byteConverter: {}
+
     }
   },
   created: function(){
     axios.get("https://raw.githubusercontent.com/TChinasso/currencyConverter-Vue/main/bit.json").then(response => {
+      this.dataOutOption.value = response.data.values.megabyte.value
+      this.dataOutOption.name = response.data.values.megabyte.unity
+      this.dataInOption.name = response.data.values.gigabyte.unity
+      this.dataInOption.value = response.data.values.gigabyte.value
       this.byteConverter = response.data.values
-      this.dataOutOption = response.data.values.megabyte.value
-      this.dataInOption = response.data.values.gigabyte.value
-      console.log(this.dataInOption)
-
+      this.calculateDataOut()
+      console.log(this.dataOutOption)
     })
     let windowSize = document.body.clientWidth;
       if(windowSize < 600){
       this.screenSize = ''
     }
+
   },
-  methods: {
+    methods: {
     calculateDataOut: function(){
-      console.log((this.dataInInput * this.dataInOption))
+      this.dataOutInput = (this.dataInInput * this.dataInOption.value) / this.dataOutOption.value
+    },
+    calateDataIn: function(){
+      this.dataInInput = (this.dataOutInput * this.dataOutOption.value) / this.dataInOption.value
     }
-  }
+  },
+  
 }
 </script>
 

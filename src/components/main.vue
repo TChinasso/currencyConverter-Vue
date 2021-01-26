@@ -72,13 +72,11 @@ export default {
         this.siglas = response.data
         this.moneyInOption = response.data.rates.BRL
         this.moneyOutOption = response.data.rates.USD
-        console.log(this.moneyInOption)
         this.siglas.rates['EUR'] = 1
         this.calculateMoneyOut()
       })
         axios.get('https://openexchangerates.org/api/currencies.json').then(response => {
         this.currencyNames = response.data
-        console.log(this.currencyNames)
       })
       let windowSize = document.body.clientWidth;
       if(windowSize < 600){
