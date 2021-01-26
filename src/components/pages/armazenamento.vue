@@ -7,10 +7,12 @@
       <div class="space">
         <div class="field">
           <div class="control">
-            <input type="" class="width40 input" :class="screenSize" id="inputSize">
+            <input type="" class="width40 input" :class="screenSize" id="inputSize" v-model="dataInInput" @keyup="calculateDataOut">
             <div class="select" :class="screenSize" >
-              <select name="" id="">
-                
+              <select name="" id="" v-model="dataInOption">
+                <option v-for="(dataName, index) in byteConverter" :value="dataName.value" :key="index" >
+                  {{dataName.unity}}
+                </option>
               </select>
             </div>
           </div>
@@ -21,8 +23,10 @@
           <div class="control">
             <input type="" class="width40 input" :class="screenSize" id="inputSize">
             <div class="select" :class="screenSize" >
-              <select name="" id="">
-                
+              <select name="" id="" v-model="dataOutOption">
+                <option v-for="(dataName, index) in byteConverter" :key="index" :value="dataName.value">
+                  {{dataName.unity}}
+                </option>
               </select>
             </div>
           </div>
@@ -39,16 +43,35 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data(){
     return{
+      dataInInput: 1,
+      dataOutInput: 0,
+      dataInOption: '',
+      dataOutOption: '',
+      dataName: {},
       screenSize: 'is-medium',
+      byteConverter: {}
     }
   },
   created: function(){
+    axios.get("https://raw.githubusercontent.com/TChinasso/currencyConverter-Vue/main/bit.json").then(response => {
+      this.byteConverter = response.data.values
+      this.dataOutOption = response.data.values.megabyte.value
+      this.dataInOption = response.data.values.gigabyte.value
+      console.log(this.dataInOption)
+
+    })
     let windowSize = document.body.clientWidth;
       if(windowSize < 600){
       this.screenSize = ''
+    }
+  },
+  methods: {
+    calculateDataOut: function(){
+      console.log((this.dataInInput * this.dataInOption))
     }
   }
 }
@@ -89,6 +112,7 @@ export default {
 }
 .width40{
   width: 50%;
+  margin-right: 5%;
 }
 .space{
   margin: 10% 0 0 10%;

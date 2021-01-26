@@ -26,7 +26,7 @@
             <input type="text" class="input" :class="screenSize" id="inputSize2" v-model="moneyOut"
               @keyup="calculateMoneyIn" @keypress="onlyNumber">
             <div class="select" :class="screenSize" ref="selectOut" style="width: 45%;">
-              <select name="moneyOut" id="moneyOut" v-model="moneyOutOption" @change="calculateMoneyIn">
+              <select name="moneyOut" id="moneyOut" v-model="moneyOutOption" @change="calculateMoneyOut">
                 <option v-for="(value, named, index) in siglas.rates" :value="value" :key="index">
                   {{currencyNames[`${named}`]}}
                 </option>
@@ -72,6 +72,7 @@ export default {
         this.siglas = response.data
         this.moneyInOption = response.data.rates.BRL
         this.moneyOutOption = response.data.rates.USD
+        console.log(this.moneyInOption)
         this.siglas.rates['EUR'] = 1
         this.calculateMoneyOut()
       })

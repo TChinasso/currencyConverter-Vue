@@ -70,23 +70,6 @@
   grid-area: sidebar;
   justify-self: start;
 }
-@media (max-width: 600px) {
-  .main{
-    grid-template-columns: 1fr;
-  }
-  .mainRightPannel{
-    display: none;
-  }
-  .main{
-    width: 90vw;
-  }
-  #inputSize, #inputSize2{
-    width: 40vw;
-  }
-  .space{
-    margin-left: 2%;
-  }
 
-}
 
 </style>
