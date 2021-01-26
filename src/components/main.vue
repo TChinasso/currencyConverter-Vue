@@ -11,9 +11,8 @@
               @keyup="calculateMoneyOut" @keypress="onlyNumber">
             <div class="select" :class="screenSize" style="width: 45%;">
               <select name="moneyIn" id="moneyIn" v-model="moneyInOption" @change="calculateMoneyOut">
-                <option v-for="(value, named, index) in siglas.rates" :key="index" :value="value" :moneyInOption="value"
-                  >
-                  {{currencyNames[`${named}`].name}}
+                <option v-for="(value, named, index) in siglas.rates" :key="index" :value="value" :moneyInOption="value">
+                  {{currencyNames[`${named}`]}}
                 </option>
               </select>
             </div>
@@ -29,7 +28,7 @@
             <div class="select" :class="screenSize" ref="selectOut" style="width: 45%;">
               <select name="moneyOut" id="moneyOut" v-model="moneyOutOption" @change="calculateMoneyIn">
                 <option v-for="(value, named, index) in siglas.rates" :value="value" :key="index">
-                  {{currencyNames[`${named}`].name}}
+                  {{currencyNames[`${named}`]}}
                 </option>
               </select>
             </div>
@@ -37,9 +36,9 @@
         </div>
       </div>
     </div>
-
-    <img src="../assets/exchange.png" class="mainRightPannel absolute-ico" alt="">
-
+    <div class="mainRightPannel">
+      <i class="fas fa-funnel-dollar absolute-ico"></i>
+    </div>
     <footer class="mainFooter">
       <p class="mainFooterP">
         current and historical foreign exchange rates published by the <a
@@ -76,8 +75,9 @@ export default {
         this.siglas.rates['EUR'] = 1
         this.calculateMoneyOut()
       })
-        axios.get('https://gist.githubusercontent.com/Fluidbyte/2973986/raw/8bb35718d0c90fdacb388961c98b8d56abc392c9/Common-Currency.json').then(response => {
+        axios.get('https://openexchangerates.org/api/currencies.json').then(response => {
         this.currencyNames = response.data
+        console.log(this.currencyNames)
       })
       let windowSize = document.body.clientWidth;
       if(windowSize < 600){
@@ -106,7 +106,14 @@ export default {
 </script>
 
 <style scoped>
-
+.main{
+  grid-template-columns: 1.3fr 0.7fr;
+    grid-template-rows: 0.05fr 1fr 0.05fr;
+    grid-template-areas:  "mainHeader mainHeader"
+                          "mainLeftPannel mainRightPannel"
+                          "mainFooter mainFooter";
+    grid-area: main;
+}
 .mainHeader{
   grid-area: mainHeader;
   margin: 2% 0 0 2%
@@ -117,10 +124,14 @@ export default {
   justify-self: start;
 }
 .mainRightPannel{
-  width: 80%;
+  width: 100%;
+  height: 100%;
   grid-area: mainRightPannel;
   align-self: center;
   justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .mainFooter{
   grid-area: mainFooter;
@@ -140,8 +151,14 @@ a{
   font-weight: bolder;
 }
 .absolute-ico{
-
-  width: 70%;
+  font-size: 100px;
+  background:-moz-linear-gradient(top, #21e1af -20%, #09b0e8 100%); 
+  background: -webkit-linear-gradient(top, #21e1af -20%,#09b0e8 100%); 
+  background: linear-gradient(to bottom, #21e1af -20%,#09b0e8 100%);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color:transparent;
 }
 select{
   border: 1px solid rgb(219, 219, 219);

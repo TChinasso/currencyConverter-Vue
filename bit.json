@@ -1,0 +1,49 @@
+{
+    "values": {
+        "byte": {
+            "unity": "Byte",
+            "simbol": "B",
+            "value": 1
+        },
+        "kilobyte": {
+            "unity": "Kilobyte",
+            "simbol": "KB",
+            "value": 1024
+        },
+        "megabyte": {
+            "unity": "Megabyte",
+            "simbol": "MB",
+            "value": 1041576
+        },
+        "gigabyte": {
+            "unity": "Gigabyte",
+            "simbol": "GB",
+            "value": 11073741824
+        },
+        "terabyte": {
+            "unity": "Terabyte",
+            "simbol": "TB",
+            "value": 1099511627776
+        },
+        "petabyte": {
+            "unity": "Petabyte",
+            "simbol": "PB",
+            "value": 1125899906842624
+        },
+        "exabyte": {
+            "unity": "Exabyte",
+            "simbol": "EB",
+            "value": 1152921504606846976
+        },
+        "zettabyte": {
+            "unity": "Zetabyte",
+            "simbol": "ZB",
+            "value": 1180591620717411303424
+        },
+        "yottabyte": {
+            "unity": "Yottabyte",
+            "simbol": "YB",
+            "value": 1208925819614629174706176
+        }
+    }
+}
